@@ -4,7 +4,7 @@ const BASE_URL =
 // IMPORTANT: keep JOBMOJITO_SIGNING_KEY out of the repository and frontend.
 // The key must be stored as a Cloudflare secret and accessed through env.
 const EMBED_ID = "38d5216e-9623-4d07-9c8f-ef6cfc3c8a74";
-const ALLOWED_ORIGIN = "https://theequalizingalgorithm.github.io";
+const ALLOWED_ORIGIN = "https://theequalizingalgorithm.github.io/infiniteCOMMunications-";
 
 function utf8ToBase64(value) {
   const bytes = new TextEncoder().encode(value);

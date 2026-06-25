@@ -20,7 +20,7 @@ This repository hosts the GitHub Pages site and Cloudflare Worker for the authen
    const WORKER_URL = "https://YOUR-WORKER.YOUR-SUBDOMAIN.workers.dev";
    ```
 
-4. Commit and push to `main` to deploy the site via GitHub Pages.
+4. Commit and push to `main` to deploy the site via GitHub Pages at `https://theequalizingalgorithm.github.io/infiniteCOMMunications-/`.
 
 ## Cloudflare Worker deployment
 
