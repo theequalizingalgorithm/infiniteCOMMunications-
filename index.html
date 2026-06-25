@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InfiniteCOMMunications Administrative Assistant Application</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="brand">
+          <img
+            src="assets/logo.png"
+            alt="InfiniteCOMMunications logo"
+            class="brand-logo"
+          />
+          <div class="brand-copy">
+            <p class="eyebrow">Administrative Assistant position</p>
+            <h1>InfiniteCOMMunications</h1>
+          </div>
+        </div>
+        <p class="intro">
+          Upload a resume, review extracted details, and begin the secure JobMojito interview once the application is ready.
+        </p>
+      </header>
+
+      <section class="panel checklist-panel" aria-label="Application checklist">
+        <div class="section-heading">
+          <h2>Application checklist</h2>
+        </div>
+        <ol class="checklist-list">
+          <li class="checklist-item" data-step="1">Upload a PDF or DOCX resume for scanning.</li>
+          <li class="checklist-item" data-step="2">Verify the extracted name, email, career, and education.</li>
+          <li class="checklist-item" data-step="3">Correct any resume errors or add missing details.</li>
+          <li class="checklist-item" data-step="4">Submit and transition to the JobMojito interview.</li>
+        </ol>
+      </section>
+
+      <section id="application-section">
+        <div class="panel">
+          <div class="section-heading">
+            <h3>Resume upload</h3>
+          </div>
+
+          <div
+            id="resume-upload"
+            class="dropzone"
+            tabindex="0"
+            role="button"
+            aria-label="Upload a PDF or DOCX resume"
+          >
+            <p>
+              Drag and drop a PDF or DOCX resume here, or
+              <button id="browse-button" class="link-button" type="button">
+                choose a file
+              </button>
+            </p>
+            <p class="hint">Maximum file size: 10 MB</p>
+          </div>
+          <input
+            id="resume-file-input"
+            type="file"
+            accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            hidden
+          />
+          <p id="dropzone-hint" class="status-text" aria-live="polite"></p>
+        </div>
+
+        <section id="scan-section" class="panel hidden" aria-live="polite">
+          <div class="section-heading">
+            <h3>Resume scanning</h3>
+          </div>
+          <p class="section-note">Parsing the file locally in your browser. No resume contents are uploaded.</p>
+          <div class="progress-bar" aria-hidden="true">
+            <div id="scan-progress-fill" class="progress-fill"></div>
+          </div>
+          <p id="scan-status" class="status-text"></p>
+        </section>
+
+        <section id="review-section" class="panel hidden">
+          <div class="section-heading">
+            <h3>Review parsed profile</h3>
+          </div>
+          <p class="section-note">
+            Confirm the candidate's name and email. Add career or education details if needed.
+          </p>
+
+          <form id="application-form">
+            <div class="form-grid">
+              <div class="field-group">
+                <label for="candidate-name">Full Name</label>
+                <input id="candidate-name" name="name" type="text" autocomplete="name" required />
+              </div>
+
+              <div class="field-group">
+                <label for="candidate-email">Email Address</label>
+                <input id="candidate-email" name="email" type="email" autocomplete="email" required />
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-heading">
+                <h3>Career history</h3>
+                <button id="add-career-entry" class="secondary-button" type="button">
+                  Add Career Entry
+                </button>
+              </div>
+              <div id="career-list" class="entry-list"></div>
+            </div>
+
+            <div class="card">
+              <div class="section-heading">
+                <h3>Education</h3>
+                <button id="add-education-entry" class="secondary-button" type="button">
+                  Add Education Entry
+                </button>
+              </div>
+              <div id="education-list" class="entry-list"></div>
+            </div>
+
+            <div class="form-actions">
+              <button id="submit-application" class="primary-button" type="submit">
+                Submit Application and Begin Interview
+              </button>
+              <p id="submission-status" class="status-text" aria-live="polite"></p>
+            </div>
+          </form>
+        </section>
+      </section>
+
+      <section id="interview-section" class="panel hidden">
+        <h2 id="interview-heading" tabindex="-1">Interview</h2>
+        <iframe
+          id="jobmojito-interview"
+          title="InfiniteCOMMunications Interview"
+          allow="camera; microphone; autoplay; fullscreen; display-capture; clipboard-write"
+        ></iframe>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
