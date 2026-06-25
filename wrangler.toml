@@ -1,6 +1,0 @@
-name = "jobmojito-auth-embed"
-main = "worker/index.js"
-compatibility_date = "2026-06-25"
-
-[dev]
-route = ""
