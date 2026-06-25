@@ -1,4 +1,3 @@
-const WORKER_URL = "REPLACE_WITH_CLOUDFLARE_WORKER_URL";
 const CONTINUE_URL = "https://infinite-communications.interviewmojito.com/";
 
 const applicationSection = document.getElementById("application-section");
@@ -112,7 +111,7 @@ const loadPdfJs = async () => {
   if (window.pdfjsLib) return;
   await new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.122/pdf.min.js";
+    script.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
     script.onload = resolve;
     script.onerror = reject;
     document.head.appendChild(script);
@@ -123,7 +122,7 @@ const loadMammoth = async () => {
   if (window.mammoth) return;
   await new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js";
+    script.src = "https://cdn.jsdelivr.net/npm/mammoth@1.7.2/mammoth.browser.min.js";
     script.onload = resolve;
     script.onerror = reject;
     document.head.appendChild(script);
@@ -537,7 +536,7 @@ applicationForm.addEventListener("submit", async (event) => {
   }
 
   submitButton.disabled = true;
-  setSubmissionStatus("Submitting your details...");
+  setSubmissionStatus("Finalizing your application...");
 
   const normalizedCareer = [...state.parsedCareer, ...state.manualCareer].filter(
     (entry) => entry.title || entry.term || entry.description
@@ -546,40 +545,21 @@ applicationForm.addEventListener("submit", async (event) => {
     (entry) => entry.title || entry.term || entry.description
   );
 
-  try {
-    const response = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: fullName,
-        email,
-        career: normalizedCareer,
-        education: normalizedEducation,
-      }),
-    });
+  const submission = {
+    name: fullName,
+    email,
+    career: normalizedCareer,
+    education: normalizedEducation,
+    submittedAt: new Date().toISOString(),
+  };
 
-    let data = null;
-    try {
-      data = await response.json();
-    } catch (error) {
-      data = null;
-    }
+  sessionStorage.setItem("infinitecomm_application", JSON.stringify(submission));
 
-    if (!response.ok) {
-      throw new Error((data && data.error) || "Unable to submit your application.");
-    }
-
-    updateChecklist(4);
-    hideElement(applicationSection);
-    showElement(thankYouModal);
-    continueButton.focus();
-    setSubmissionStatus("");
-  } catch (error) {
-    setSubmissionStatus(error.message, true);
-    submitButton.disabled = false;
-  }
+  updateChecklist(4);
+  hideElement(applicationSection);
+  showElement(thankYouModal);
+  continueButton.focus();
+  setSubmissionStatus("");
 });
 
 continueButton.addEventListener("click", () => {
