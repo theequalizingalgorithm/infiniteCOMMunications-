@@ -1,4 +1,5 @@
 const WORKER_URL = "REPLACE_WITH_CLOUDFLARE_WORKER_URL";
+const CONTINUE_URL = "https://infinite-communications.interviewmojito.com/";
 
 const applicationSection = document.getElementById("application-section");
 const applicationForm = document.getElementById("application-form");
@@ -19,9 +20,8 @@ const addEducationEntryButton = document.getElementById("add-education-entry");
 const submitButton = document.getElementById("submit-application");
 const submissionStatus = document.getElementById("submission-status");
 const checklistItems = document.querySelectorAll(".checklist-item");
-const interviewSection = document.getElementById("interview-section");
-const interviewHeading = document.getElementById("interview-heading");
-const interviewFrame = document.getElementById("jobmojito-interview");
+const thankYouModal = document.getElementById("thank-you-modal");
+const continueButton = document.getElementById("continue-button");
 
 const state = {
   resumeText: "",
@@ -537,7 +537,14 @@ applicationForm.addEventListener("submit", async (event) => {
   }
 
   submitButton.disabled = true;
-  setSubmissionStatus("Preparing your interview…");
+  setSubmissionStatus("Submitting your details...");
+
+  const normalizedCareer = [...state.parsedCareer, ...state.manualCareer].filter(
+    (entry) => entry.title || entry.term || entry.description
+  );
+  const normalizedEducation = [...state.parsedEducation, ...state.manualEducation].filter(
+    (entry) => entry.title || entry.term || entry.description
+  );
 
   try {
     const response = await fetch(WORKER_URL, {
@@ -545,24 +552,38 @@ applicationForm.addEventListener("submit", async (event) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: fullName, email }),
+      body: JSON.stringify({
+        name: fullName,
+        email,
+        career: normalizedCareer,
+        education: normalizedEducation,
+      }),
     });
 
-    const data = await response.json();
-    if (!response.ok || !data.embedUrl) {
-      throw new Error(data.error || "Unable to start the interview.");
+    let data = null;
+    try {
+      data = await response.json();
+    } catch (error) {
+      data = null;
     }
 
-    interviewFrame.src = data.embedUrl;
-    applicationSection.hidden = true;
-    interviewSection.hidden = false;
-    interviewHeading.focus();
-    interviewSection.scrollIntoView({ behavior: "smooth", block: "start" });
-    updateChecklist(3);
+    if (!response.ok) {
+      throw new Error((data && data.error) || "Unable to submit your application.");
+    }
+
+    updateChecklist(4);
+    hideElement(applicationSection);
+    showElement(thankYouModal);
+    continueButton.focus();
+    setSubmissionStatus("");
   } catch (error) {
     setSubmissionStatus(error.message, true);
     submitButton.disabled = false;
   }
+});
+
+continueButton.addEventListener("click", () => {
+  window.location.href = CONTINUE_URL;
 });
 
 candidateNameInput.addEventListener("input", () => setSubmissionStatus(""));
@@ -570,8 +591,8 @@ candidateEmailInput.addEventListener("input", () => setSubmissionStatus(""));
 
 const initialize = () => {
   hideElement(reviewSection);
-  hideElement(interviewSection);
   hideElement(scanSection);
+  hideElement(thankYouModal);
   updateDropzoneHint("No file selected.");
 };
 

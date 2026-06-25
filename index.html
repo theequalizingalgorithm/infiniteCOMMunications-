@@ -34,7 +34,7 @@
           <li class="checklist-item" data-step="1">Upload a PDF or DOCX resume for scanning.</li>
           <li class="checklist-item" data-step="2">Verify the extracted name, email, career, and education.</li>
           <li class="checklist-item" data-step="3">Correct any resume errors or add missing details.</li>
-          <li class="checklist-item" data-step="4">Submit and transition to the JobMojito interview.</li>
+          <li class="checklist-item" data-step="4">Submit details and continue to the JobMojito interview portal.</li>
         </ol>
       </section>
 
@@ -122,7 +122,7 @@
 
             <div class="form-actions">
               <button id="submit-application" class="primary-button" type="submit">
-                Submit Application and Begin Interview
+                Submit Application
               </button>
               <p id="submission-status" class="status-text" aria-live="polite"></p>
             </div>
@@ -130,14 +130,15 @@
         </section>
       </section>
 
-      <section id="interview-section" class="panel hidden">
-        <h2 id="interview-heading" tabindex="-1">Interview</h2>
-        <iframe
-          id="jobmojito-interview"
-          title="InfiniteCOMMunications Interview"
-          allow="camera; microphone; autoplay; fullscreen; display-capture; clipboard-write"
-        ></iframe>
-      </section>
+      <div id="thank-you-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="thank-you-title">
+        <div class="modal-card">
+          <h2 id="thank-you-title">Thank you for your application</h2>
+          <p>
+            Your details have been submitted. Continue when you are ready to begin the next step.
+          </p>
+          <button id="continue-button" class="primary-button" type="button">Continue</button>
+        </div>
+      </div>
     </div>
 
     <script src="app.js"></script>

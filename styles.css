@@ -365,6 +365,37 @@ textarea {
   font-size: 0.95rem;
 }
 
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(15, 23, 42, 0.62);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.modal-card {
+  width: min(100%, 520px);
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
+  padding: 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.modal-card h2 {
+  margin: 0;
+}
+
+.modal-card p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.7;
+}
+
 @media (min-width: 720px) {
   .page-shell {
     padding: 36px 32px 48px;
@@ -397,16 +428,4 @@ textarea {
   .dropzone {
     min-height: 160px;
   }
-
-  #jobmojito-interview {
-    min-height: 520px;
-  }
-}
-
-#jobmojito-interview {
-  width: 100%;
-  min-height: 700px;
-  border: none;
-  border-radius: 20px;
-  background: white;
 }
